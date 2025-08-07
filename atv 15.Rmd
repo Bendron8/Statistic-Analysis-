@@ -1,0 +1,68 @@
+---
+title: "Atividade 7 - TM"
+author: "Brendon Sandre e Matheus Brito"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+# 15
+## a) 
+
+```{r}
+dados <- read.table("http://www.cnachtsheim-text.csom.umn.edu/Kutner/Chapter%20%201%20Data%20Sets/CH01PR19.txt",
+                    header = TRUE)
+colnames(dados)<- c("X1", "X2")
+
+linha<- data.frame(X1 = 3.897, X2 = 21)
+dados<- rbind(linha, dados)
+
+
+model<- lm(X1~X2, data=dados)
+
+b0<- coef(model)[1]
+b1<- coef(model)[2]
+
+y_hat<- b0 + b1*dados$X1
+
+```
+
+Temos $\hat{\beta_0}$=2.11405 e $\hat{\beta_1}$=0.03883.
+Portanto $\hat{\boldsymbol{y}}$ = 2.11405$\cdot$$\mathbf{1}$ + 0.03883$\cdot$ $\hat{\boldsymbol{x}}$
+
+## b)
+```{r}
+
+ggplot(dados, aes(x=X2, y= X1))+
+  geom_point(color="red")+
+  geom_abline(intercept = b0, slope = b1, color = "blue")+
+  labs(x = "Pontuação no Vestibular", y="Média das Notas", 
+       title = "Gráfico de Dispersão com Reta Ajustada")
+
+```
+
+## c)
+
+Estimativa de $\hat{\beta_0}$ <br>
+Com base na amostra observada, estima-se que a nota média de um estudante que obteve 0 no vestibular é de 2.11405.
+Estimativa de $\hat{\beta_1}$ <br>
+Com base na estimativa observada, estima-se que a cada aumento de uma unidade na nota do vestibular, aumenta-se  0.03883 unidades na média prevista ao final do primeiro ano.
+
+## d)
+```{r}
+
+x_novo<- 25
+y_prev<- b0 + b1*x_novo
+
+```
+
+Valor previsto para um estudante que obteve 25 pontos no vestibular $x$ = 25: <br>
+$\hat{\boldsymbol{y}}$ = 2.11405 + 0.03883 $\cdot$ 25 = 3.084727
+
+## e)
+
+Porque nos permite representar $\hat{y}$ de forma simples e linear, usando as propriedades de subespaços vetoriais para manipular as relações entre as variáveis e aplicar técnicas eficientes para ánalise e previsão.

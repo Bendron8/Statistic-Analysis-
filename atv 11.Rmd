@@ -1,0 +1,83 @@
+---
+title: "Atividade 7 - TM"
+author: "Brendon Sandre e Matheus Brito"
+date: "`r Sys.Date()`"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+
+```{r}
+dados <- read.table("http://www.cnachtsheim-text.csom.umn.edu/Kutner/Chapter%20%201%20Data%20Sets/CH01PR19.txt",
+                    header = TRUE)
+colnames(dados)<- c("X1", "X2")
+
+linha<- data.frame(X1 = 3.897, X2 = 21)
+dados<- rbind(linha, dados)
+```
+# 11
+## a)
+```{r}
+media1<- sum(dados$X1)/length(dados$X1)
+media2<- sum(dados$X2)/length(dados$X2)
+
+d1<- dados$X1-media1
+d2<- dados$X2-media2
+
+norma_d1<- sqrt(sum(d1^2))
+norma_d2<- sqrt(sum(d2^2))
+
+cat("Norma de d1:", norma_d1,"\n", "Norma de d2:", norma_d2)
+```
+
+## b)
+```{r}
+
+prod<- sum(d1*d2)
+
+cat("O produto interno entre d1 e d2 é: ", prod)
+```
+
+
+## c)
+
+```{r}
+
+cos<- prod/(norma_d1 * norma_d2)
+cat("O cosseno do ângulo é: ", cos)
+
+
+```
+
+## d)
+```{r}
+ggplot(dados, aes(x=X1, y=X2)) +
+  geom_point(color="green", size=3) +
+  labs(title = "Gráfico de Dispersão", x="Média das Notas",
+       y="Pontuação no Vestibular") +
+  theme_minimal()
+```
+
+## e)
+
+Fracamente linear, pois o cos($\theta$) = correlação = 0.269.
+Possui uma orientação crescente dos dados, porque, conforme as "Médias das Notas" aumentam, os valores da "Pontuação no Vestibular" tendem a aumentar também.
+
+## f)
+```{r}
+corr<- prod/(norma_d1*norma_d2)
+a<- cor(d1, d2)
+```
+
+Assim, correlação = cor($d_{2}, d_{2}$) = 0.2694818
+
+## g)
+Sim, pois um ângulo positivo indica que a relação entre as variavéis será positiva. Temos que cos($\theta$) = cor($X_{1}, X_{2}$)

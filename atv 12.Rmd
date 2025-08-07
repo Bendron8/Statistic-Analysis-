@@ -1,0 +1,145 @@
+---
+title: "Atividade 7 - TM"
+author: "Brendon Sandre e Matheus Brito"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+tinytex::install_tinytex(force = TRUE)
+```
+
+# 12
+## a)
+
+
+```{r}
+dados <- matrix(c(
+  1.71976217672389, 1.46608814700658,
+  1.88491125525836, 1.89101254267085,
+  2.77935415707456, 1.48699777584638,
+  2.03525419571229, 1.63555438535443,
+  2.06464386758047, 1.68748036607537,
+  2.85753249344164, 1.15665334462879,
+  2.2304581029946, 2.41889352224726,
+  1.36746938269673, 2.07668655891826,
+  1.65657357405324, 1.43093153149403,
+  1.77716901495002, 2.62690746053496,
+  2.61204089871973, 2.21323211073841,
+  2.17990691352868, 1.85246425850386,
+  2.20038572529703, 2.44756283052251,
+  2.05534135797256, 2.43906674376652,
+  1.72207943262296, 2.41079054081874,
+  2.89345656840154, 2.34432012705005,
+  2.24892523911462, 2.27695882676879,
+  1.01669142168518, 1.96904414471164,
+  2.35067795078184, 1.84701866813004,
+  1.76360429613603, 1.80976449949381,
+  7.65264651053974, 8.18981974137994,
+  7.8960413609902, 7.74883827344535,
+  7.36730182421587, 7.83339630816529,
+  9.08447798266926, 7.49071230844646,
+  8.6039809991525, 7.46410438676221,
+  7.43844570839833, 8.15176432070213,
+  7.79855758235046, 8.22410488931471,
+  7.76667232318839, 8.02650211336525,
+  8.38998255916816, 8.46113373393987,
+  7.95831546676408, 9.02504234281357,
+  8.12665925699738, 7.75448441697173,
+  7.98572662232565, 6.84541556217959,
+  7.97856477135434, 8.50286926223113,
+  8.68430114200723, 7.6453996187088,
+  7.88711450717037, 7.65599569176632,
+  8.75823530221477, 8.51278568484835,
+  7.22562359788489, 7.8576134964745,
+  8.29230687481803, 7.38964114387273,
+  8.06192712192231, 8.09065173987458,
+  8.10797078437199, 7.93055431878048,
+  14.0028820929499, 13.6447967181503,
+  14.1926402005632, 14.1284418545783,
+  13.8146699841038, 13.8766540607688,
+  14.3221882742594, 13.8262287003011,
+  13.8897567190906, 13.5241907163675,
+  14.1658909819578, 13.9774861375955,
+  14.5484195065747, 13.6075477652715,
+  14.2175907454169, 13.1660290317059,
+  13.8370342072344, 13.8098867398561,
+  14.5744038092255, 14.4594983045304,
+  14.4967519279811, 13.7123265186958,
+  14.274198479754, 14.3039821611125,
+  14.1193658675557, 13.1910586458554,
+  13.6860469619803, 13.9722190172377,
+  14.680326224265, 14.2597036019717,
+  13.6998702064264, 14.1505766810834,
+  15.0936664965083, 14.0528380970745,
+  14.7663053130926, 13.6796469958473,
+  13.8821498204498, 13.5751478269832,
+  13.4867895498466, 13.4879356046975),
+  ncol = 2, byrow = TRUE)
+
+
+centro <- dados[c(1, 21, 41), ]
+grupos<- numeric(nrow(dados))
+
+distancia <- function(ponto, centroide) {
+  sqrt(sum((ponto - centroide)^2))
+}
+
+for (iter in 1:10) {
+
+  for (i in 1:nrow(dados)) {
+    distancias <- numeric(3)
+    for (g in 1:3) {
+      distancias[g] <- distancia(dados[i, ], centro[g, ])
+    }
+    grupos[i] <- which.min(distancias)
+  }
+  
+
+  for (g in 1:3) {
+    membros <- dados[grupos == g, , drop = FALSE]
+    if (nrow(membros) > 0) {
+      centro[g, 1] <- sum(membros[, 1]) / nrow(membros)
+      centro[g, 2] <- sum(membros[, 2]) / nrow(membros)
+    }
+  }
+}
+
+
+resultado <- data.frame(x1 = dados[,1], x2 = dados[,2], grupo = factor(grupos))
+gp1<- subset(resultado, grupos==1)
+gp2<- subset(resultado, grupos==2)
+gp3<- subset(resultado, grupos==3)
+
+
+gp1
+gp2
+gp3
+
+```
+
+## b)
+```{r}
+ggplot(resultado, aes(x=x1, y=x2, color=grupo))+
+  geom_point(size=3)+
+  labs(x = "Area do lote (em centenas de metros quadrados)",
+       y= "Preco (em centenas de milhares de reais)")+
+  theme_minimal()+
+  scale_color_brewer(palette = "Set1")
+```
+## c)
+
+Grupo 1: <br>
+Podemos dizer que os indivíduos deste grupo possuem áreas e preços baixos. Os 
+valores para $x_1$ está entre 1,01 e 2,89 e
+para $x_2$ está entre 1,15 e 2,62. Uma interprertação para este grupo, é que, representa provavelmente lotes menores e mais acessíveis economicamente.
+
+Grupo 2: <br>
+Podemos dizer que os indivíduos deste grupo possuem áreas e preços intermediários. Os valores para $x_1$ está entre 7,22 e 8,76 e para $x_2$ está entre 6,84 e 9,02. Uma interprertação para este grupo, é que, os lotes representam tamanhos moderados e um custo médio.
+
+Grupo 3: <br>
+Podemos dizer que os indivíduos deste grupo possuem áreas e preços mais elevados. Os valores para $x_1$ está entre 13,49 e 13,09 e para $x_2$ está entre 13,16 e 14,46. Uma interpretação para este grupo, é que, os lotes são maiores ou a localizados em regiões de alta valorização.
+
