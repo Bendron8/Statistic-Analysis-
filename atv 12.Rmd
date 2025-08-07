@@ -1,11 +1,4 @@
----
-title: "Atividade 7 - TM"
-author: "Brendon Sandre"
-date: "`r Sys.Date()`"
-output:
-  pdf_document: default
-  html_document: default
----
+
 
 ```{r setup, include=FALSE}
 library(ggplot2)
