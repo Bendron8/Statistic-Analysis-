@@ -1,9 +1,4 @@
----
-title: "Atividade 7 - TM"
-author: "Brendon Sandre e Matheus Brito"
-date: "`r Sys.Date()`"
-output: html_document
----
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
