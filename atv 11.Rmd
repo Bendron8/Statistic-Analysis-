@@ -1,6 +1,6 @@
 ---
 title: "Atividade 7 - TM"
-author: "Brendon Sandre e Matheus Brito"
+author: "Brendon Sandre"
 date: "`r Sys.Date()`"
 output:
   word_document: default
